@@ -1,6 +1,15 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+} from "@mui/material";
 
 function FilterBar({ filters, setFilters }) {
+  const theme = useTheme(); // to access current theme palette
+
   const handleChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
@@ -10,7 +19,7 @@ function FilterBar({ filters, setFilters }) {
       display="flex"
       flexWrap="wrap"
       gap={3}
-      bgcolor="white"
+      bgcolor={theme.palette.background.paper} // adapt to dark/light mode
       boxShadow={2}
       p={3}
       borderRadius={2}
