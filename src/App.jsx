@@ -8,6 +8,7 @@ import { Container, Grid, Box, Typography, CssBaseline } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCars } from "./store/carsSlice";
 import Wishlists from "./components/WishList";
+import Loader from "./components/Loader";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -19,32 +20,8 @@ function App() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 10;
-
-  // const fetchCars = async () => {
-  //   try {
-  //     const response = await fetch("https://www.freetestapi.com/api/v1/cars");
-  //     if (!response.ok) throw new Error("Network response was not ok");
-
-  //     const carss = await response.json();
-  //     // console.log(carss);
-  //     return carss;
-  //   } catch (error) {
-  //     console.error("Error fetching cars:", error);
-  //     return [];
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const getCars = async () => {
-  //     const data = await fetchCars();
-
-  //     setCarsData(data);
-  //   };
-  //   getCars();
-  // }, []);
-
   const dispatch = useDispatch();
-  const { data: carsData } = useSelector((state) => state.cars);
+  const { data: carsData, loading, error } = useSelector((state) => state.cars);
   console.log(carsData);
 
   useEffect(() => {
@@ -80,8 +57,8 @@ function App() {
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
   const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>{error}</p>;
+  if (loading) return <Loader />;
+  if (error) return <p>{error}</p>;
   return (
     <Container maxWidth="lg">
       <CssBaseline />
@@ -106,7 +83,7 @@ function App() {
         >
           {currentCars.map((car) => (
             <Grid item xs={12} key={car.id}>
-              <CarCard car={car} onAdd={addToWishlist} />
+              <CarCard loading={loading} car={car} onAdd={addToWishlist} />
             </Grid>
           ))}
         </Grid>
