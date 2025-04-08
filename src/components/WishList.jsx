@@ -1,6 +1,6 @@
 import { Typography, Grid, Card, CardContent, Button } from "@mui/material";
 
-function Wishlist({ wishlist, onRemove }) {
+function Wishlists({ wishlist, onRemove }) {
   return (
     <div style={{ marginTop: "2rem" }}>
       <Typography variant="h5" fontWeight={600} gutterBottom>
@@ -43,4 +43,4 @@ function Wishlist({ wishlist, onRemove }) {
   );
 }
 
-export default Wishlist;
+export default Wishlists;

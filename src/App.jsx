@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import CarCard from "./components/CarCard";
 import FilterBar from "./components/FilterBar";
 import Pagination from "./components/Pagination";
-import Wishlist from "./components/Wishlist";
+// import Wishlists from "./components/Wishlist";
 
 import { Container, Grid, Box, Typography, CssBaseline } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCars } from "./store/carsSlice";
+import Wishlists from "./components/WishList";
 
 function App() {
   const [cars, setCars] = useState([]);
   // const [carsData, setCarsData] = useState([]);
 
   const [filters, setFilters] = useState({ brand: "", price: "", fuel: "" });
-  const [wishlist, setWishlist] = useState(
+  const [myWishlist, setMyWishlist] = useState(
     () => JSON.parse(localStorage.getItem("wishlist")) || []
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,17 +64,17 @@ function App() {
   }, [carsData, filters]);
 
   useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+    localStorage.setItem("wishlist", JSON.stringify(myWishlist));
+  }, [myWishlist]);
 
   const addToWishlist = (car) => {
-    if (!wishlist.some((item) => item.id === car.id)) {
-      setWishlist([...wishlist, car]);
+    if (!myWishlist.some((item) => item.id === car.id)) {
+      setMyWishlist([...myWishlist, car]);
     }
   };
 
   const removeFromWishlist = (id) => {
-    setWishlist(wishlist.filter((item) => item.id !== id));
+    setMyWishlist(myWishlist.filter((item) => item.id !== id));
   };
 
   const indexOfLastCar = currentPage * carsPerPage;
@@ -119,7 +120,7 @@ function App() {
         />
 
         {/* Wishlist Section */}
-        <Wishlist wishlist={wishlist} onRemove={removeFromWishlist} />
+        <Wishlists wishlist={myWishlist} onRemove={removeFromWishlist} />
       </Box>
     </Container>
   );
